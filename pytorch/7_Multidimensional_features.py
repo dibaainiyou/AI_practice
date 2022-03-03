@@ -2,12 +2,12 @@ import torch
 import numpy as np
 from torch.utils.data import Dataset,DataLoader
 
-class DiabetesDataset(Dataset):
+class DiabetesDataset(Dataset):                                    #数据集类的继承
     def __init__(self,filepath):
         Dataset.__init__(self)
-        xy=np.loadtxt(filepath,delimiter=',',dtype=np.float32)
+        xy=np.loadtxt(filepath,delimiter=',',dtype=np.float32)      #将数据读入
         self.leng=xy.shape[0]
-        self.x_data=torch.from_numpy(xy[:,:-1])
+        self.x_data=torch.from_numpy(xy[:,:-1])                     #数据分为特征和标签
         self.y_data=torch.from_numpy(xy[:,[-1]])
 
     def __getitem__(self, item):
@@ -16,10 +16,10 @@ class DiabetesDataset(Dataset):
     def __len__(self):
         return self.leng
 
-dataset=DiabetesDataset("diabetes.csv")
-train_loader=DataLoader(dataset=dataset,batch_size=3,shuffle=True,num_workers=0)
+dataset=DiabetesDataset("diabetes.csv")                               
+train_loader=DataLoader(dataset=dataset,batch_size=3,shuffle=True,num_workers=0)       #mini_batch
 
-class Model(torch.nn.Module):
+class Model(torch.nn.Module):                                                          #一层隐藏层的网络
     def __init__(self):
         torch.nn.Module.__init__(self)
         self.linear1=torch.nn.Linear(8,6)
